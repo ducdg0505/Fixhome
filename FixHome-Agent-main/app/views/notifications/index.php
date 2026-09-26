@@ -1,0 +1,6 @@
+<section class="container section narrow" data-reveal>
+  <div class="page-head page-head-split"><div><span class="section-kicker">THÔNG BÁO</span><h1>Cập nhật của bạn</h1><p>Các thay đổi liên quan trực tiếp đến tài khoản và công việc của bạn.</p></div><?php if($notificationUnread): ?><form method="post" action="/notifications/read"><?= csrf_field() ?><button class="btn ghost dark">Đánh dấu tất cả đã đọc</button></form><?php endif; ?></div>
+  <?php if(!$notifications): ?><div class="empty"><b>Chưa có thông báo.</b><p>Cập nhật mới về báo giá, phân công và tiến trình sẽ xuất hiện tại đây.</p></div><?php endif; ?>
+  <div class="notification-list"><?php foreach($notifications as $notification): ?><article class="notification-card <?= $notification['is_read'] ? '' : 'unread' ?>"><div><small><?= dt($notification['created_at']) ?></small><h2><?= e($notification['title']) ?></h2><p><?= e($notification['message']) ?></p></div><?php if(!$notification['is_read']): ?><form method="post" action="/notifications/read"><?= csrf_field() ?><input type="hidden" name="notification_id" value="<?= (int)$notification['id'] ?>"><button class="btn small ghost dark">Đánh dấu đã đọc</button></form><?php endif; ?></article><?php endforeach; ?></div>
+  <?= pager('notifications',$pagination) ?>
+</section>
